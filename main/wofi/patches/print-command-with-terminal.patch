@@ -1,0 +1,60 @@
+diff -r fa80dc83c18c inc/wofi_api.h
+--- a/inc/wofi_api.h	Wed Jul 30 21:23:40 2025 -0700
++++ b/inc/wofi_api.h	Thu Dec 18 12:51:10 2025 -0800
+@@ -60,6 +60,8 @@
+ 
+ void wofi_term_run(const char* cmd);
+ 
++void wofi_term_print(const char* cmd);
++
+ void wofi_exit(int status);
+ 
+ #endif
+diff -r fa80dc83c18c modes/drun.c
+--- a/modes/drun.c	Wed Jul 30 21:23:40 2025 -0700
++++ b/modes/drun.c	Thu Dec 18 12:51:10 2025 -0800
+@@ -456,7 +456,11 @@
+ 		wofi_write_cache(mode, cmd);
+ 		if(print_command) {
+ 			char* cmd = get_cmd(G_APP_INFO(info));
+-			printf("%s\n", cmd);
++			if (g_desktop_app_info_has_key(info, "Terminal") && strcmp(g_desktop_app_info_get_string(info, "Terminal"), "true") == 0) {
++				wofi_term_print(cmd);
++			} else {
++				printf("%s\n", cmd);
++			}
+ 			free(cmd);
+ 			wofi_exit(0);
+ 		} else if(print_desktop_file) {
+@@ -479,7 +483,11 @@
+ 		char* action = space + 1;
+ 		if(print_command) {
+ 			char* cmd = get_cmd(G_APP_INFO(info));
+-			printf("%s\n", cmd);
++			if (g_desktop_app_info_has_key(info, "Terminal") && strcmp(g_desktop_app_info_get_string(info, "Terminal"), "true") == 0) {
++				wofi_term_print(cmd);
++			} else {
++				printf("%s\n", cmd);
++			}
+ 			free(cmd);
+ 			fprintf(stderr, "Printing the command line for an action is not supported\n");
+ 		} else if(print_desktop_file) {
+diff -r fa80dc83c18c src/wofi.c
+--- a/src/wofi.c	Wed Jul 30 21:23:40 2025 -0700
++++ b/src/wofi.c	Thu Dec 18 12:51:10 2025 -0800
+@@ -1003,6 +1003,15 @@
+ 	wofi_exit(1);
+ }
+ 
++void wofi_term_print(const char* cmd) {
++	if(terminal != NULL) {
++		printf("%s -e %s\n", terminal, cmd);
++		wofi_exit(0);
++	}
++	fprintf(stderr, "No terminal emulator found please use --term\n");
++	wofi_exit(1);
++}
++
+ static void flag_box(GtkBox* box, GtkStateFlags flags) {
+ 	GList* selected_children = gtk_container_get_children(GTK_CONTAINER(box));
+ 	for(GList* list = selected_children; list != NULL; list = list->next) {

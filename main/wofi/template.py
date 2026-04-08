@@ -1,6 +1,6 @@
 pkgname = "wofi"
 pkgver = "1.5.3"
-pkgrel = 0
+pkgrel = 1
 build_style = "meson"
 hostmakedepends = ["meson", "pkgconf"]
 makedepends = ["gtk+3-devel", "wayland-devel"]
