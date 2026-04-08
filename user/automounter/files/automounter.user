@@ -1,0 +1,4 @@
+type = process
+command = /usr/bin/automounter
+depends-on = dbus
+smooth-recovery = true
