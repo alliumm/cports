@@ -1,0 +1,35 @@
+diff --git a/lact-daemon/src/server/handler.rs b/lact-daemon/src/server/handler.rs
+index 8019b46..98c2415 100644
+--- a/lact-daemon/src/server/handler.rs
++++ b/lact-daemon/src/server/handler.rs
+@@ -731,7 +731,7 @@ impl<'a> Handler {
+         }
+ 
+         let service_journal_output =
+-            run_command("journalctl", &["--no-hostname", "-u", "lactd", "-b"]).await;
++            run_command("dinitctl", &["--system", "catlog", "lactd"]).await;
+ 
+         match service_journal_output {
+             Ok(output) => {
+diff --git a/lact-gui/src/app.rs b/lact-gui/src/app.rs
+index 8c74244..98eb5cd 100644
+--- a/lact-gui/src/app.rs
++++ b/lact-gui/src/app.rs
+@@ -424,7 +424,7 @@ impl AsyncComponent for AppModel {
+                 daemon_version = system_info.version.as_str(),
+                 daemon_commit = system_info.commit.as_deref().unwrap_or_default()
+             ),
+-            selectable_text: Some("sudo systemctl restart lactd".to_string()),
++            selectable_text: Some("doas dinitctl restart lactd".to_string()),
+             ..Default::default()
+         });
+ 
+@@ -558,7 +558,7 @@ impl AsyncComponent for AppModel {
+                         "embedded-daemon-info",
+                         error_info = format!("Error info: {err:#}\n\n")
+                     ),
+-                    selectable_text: Some("sudo systemctl enable --now lactd".to_string()),
++                    selectable_text: Some("doas dinitctl enable lactd".to_string()),
+                     ..Default::default()
+                 })));
+         }
