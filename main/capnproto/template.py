@@ -1,6 +1,6 @@
 pkgname = "capnproto"
 pkgver = "1.2.0"
-pkgrel = 0
+pkgrel = 1
 build_style = "cmake"
 configure_args = ["-DBUILD_SHARED_LIBS=ON"]
 hostmakedepends = ["cmake", "ninja", "pkgconf"]
@@ -15,6 +15,10 @@ license = "MIT"
 url = "https://capnproto.org"
 source = f"{url}/capnproto-c++-{pkgver}.tar.gz"
 sha256 = "ed00e44ecbbda5186bc78a41ba64a8dc4a861b5f8d4e822959b0144ae6fd42ef"
+tool_flags = {
+    # required to build the coroutine library
+    "CXXFLAGS": ["-std=c++20"]
+}
 
 
 if self.profile.cross:
