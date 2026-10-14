@@ -1,0 +1,20 @@
+diff --git a/meson.build b/meson.build
+index 2233885fb..421f1620f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -147,14 +147,7 @@ rustc_for_build = meson.get_compiler('rust', native : true)
+ # can not be used when making a shared object; recompile with -fPIC`
+ # We don't control Nixpkgs' Musl's position-independent-ness, so instead we just
+ # disable shared libraries that use RTTI (like liblix) when this is the case.
+-can_dylib_rtti = cxx.links('''
+-  #include <print>
+-  void foo() {
+-    std::println("");
+-  }
+-  ''',
+-  args : '-shared',
+-)
++can_dylib_rtti = true
+ require_dylib_rtti = declare_dependency(
+   #'dylib-rtti-disabler',
+   dependencies : can_dylib_rtti ? [] : disabler(),

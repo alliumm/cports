@@ -1,0 +1,12 @@
+diff --git a/doc/manual/book.toml b/doc/manual/book.toml
+index fe00cdfd8..8dc42046b 100644
+--- a/doc/manual/book.toml
++++ b/doc/manual/book.toml
+@@ -32,6 +32,7 @@ command = "jq --from-file anchors.jq"
+ [output.markdown]
+ 
+ [output.linkcheck2]
++optional = true
+ # no Internet during the build (in the sandbox)
+ follow-web-links = false
+ 

@@ -1,0 +1,24 @@
+diff --git a/contrib/plugins/meson.build b/contrib/plugins/meson.build
+index 094805982..8a02c411e 100644
+--- a/contrib/plugins/meson.build
++++ b/contrib/plugins/meson.build
+@@ -1,6 +1,7 @@
+ plugin_mtls_store = shared_module(
+   'plugin_mtls_store',
+   'plugin_mtls_store.cc',
++  liblix_generated_headers,
+   # don't link liblix* into plugins (host process provides them at runtime).
+   # Explicitly link curl so it binds to Nix-store libcurl, not /usr/lib/libcurl.
+   dependencies : [
+diff --git a/lix/nix/meson.build b/lix/nix/meson.build
+index a1c360897..3000a244a 100644
+--- a/lix/nix/meson.build
++++ b/lix/nix/meson.build
+@@ -137,6 +137,7 @@ nix = executable(
+   nix_settings_headers,
+   nix_headers,
+   legacy_headers,
++  liblix_generated_headers,
+   include_directories : legacy_include_directories,
+   cpp_pch : cpp_pch,
+   install : true,

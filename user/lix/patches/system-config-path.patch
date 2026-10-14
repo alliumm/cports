@@ -1,0 +1,12 @@
+diff --git a/lix/libstore/globals.cc b/lix/libstore/globals.cc
+index f6b73bb9f..76bab9ecb 100644
+--- a/lix/libstore/globals.cc
++++ b/lix/libstore/globals.cc
+@@ -147,6 +147,7 @@ void loadConfFile()
+         }
+     };
+ 
++    applyConfigFile(ApplyConfigOptions{.path = "/usr/share/nix/nix.conf"});
+     applyConfigFile(ApplyConfigOptions{.path = settings.nixConfDir + "/nix.conf"});
+ 
+     /* We only want to send overrides to the daemon, i.e. stuff from
